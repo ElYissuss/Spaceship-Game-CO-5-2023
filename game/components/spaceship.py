@@ -15,28 +15,34 @@ class Spaceship:
     def update(self,user_input):
         if user_input[pygame.K_LEFT]:
             self.move_left()
+            if self.rect.x == 0:
+                self.rect.x = 1060
         elif user_input[pygame.K_RIGHT]:
             self.move_right()
+            if self.rect.x == 1060:
+                self.rect.x = 0
         elif user_input[pygame.K_UP]:
             self.move_up()
+            if self.rect.y == 0:
+                self.rect.y = 540
         elif user_input[pygame.K_DOWN]:
             self.move_down()
+            if self.rect.y == 540:
+                self.rect.y = 0
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
     def move_left(self):
-        self.rect.x -= 10
-        if self.rect.x == -30:
-            self.rect.x = 1090
+        if self.rect.left > 0:
+            self.rect.x -= 10
     
     def move_right(self):
-        self.rect.x += 10
-        if self.rect.x == (SCREEN_WIDTH)-10:
-            self.rect.x = -30
+        if self.rect.left < (SCREEN_WIDTH)-40:
+            self.rect.x += 10
     
     def move_up(self):
-        if self.rect.y > 0:
+        if self.rect.y > (SCREEN_HEIGHT)//2:
             self.rect.y -= 10
     
     def move_down(self):
