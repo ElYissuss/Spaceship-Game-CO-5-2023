@@ -26,15 +26,17 @@ class Spaceship:
         screen.blit(self.image, self.rect)
 
     def move_left(self):
-        if self.rect.left > 0:
-            self.rect.x -= 10
+        self.rect.x -= 10
+        if self.rect.x == -30:
+            self.rect.x = 1090
     
     def move_right(self):
-        if self.rect.left < (SCREEN_WIDTH)-40:
-            self.rect.x += 10
+        self.rect.x += 10
+        if self.rect.x == (SCREEN_WIDTH)-10:
+            self.rect.x = -30
     
     def move_up(self):
-        if self.rect.y > (SCREEN_HEIGHT)//2:
+        if self.rect.y > 0:
             self.rect.y -= 10
     
     def move_down(self):
