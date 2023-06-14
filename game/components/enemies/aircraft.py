@@ -1,14 +1,14 @@
 import pygame
 
 from game.components.enemies.enemy import Enemy
-from game.utils.constants import ENEMY_1
+from game.utils.constants import ENEMY_3
 
-class Ship(Enemy):
-    SPEED_X = 5
+class Aircraft(Enemy):
+    SPEED_X = 2
     SPEED_Y = 5
-    INTERVAL = [25,50,75,100,125,150,175,200]
+    INTERVAL = [50,100,200]
 
     def __init__(self):
-        self.image = ENEMY_1
+        self.image = ENEMY_3
         self.image = pygame.transform.scale(self.image,(self.WIDHT,self.HEIGHT))
         super().__init__(self.image)
