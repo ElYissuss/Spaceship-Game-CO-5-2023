@@ -4,6 +4,7 @@ from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT
 class Spaceship:
     X_POS = (SCREEN_WIDTH // 2) - 40
     Y_POS = 500
+    SPEED = 10
 
     def __init__(self):
         self.image = SPACESHIP
@@ -11,6 +12,7 @@ class Spaceship:
         self.rect = self.image.get_rect()
         self.rect.x = self.X_POS
         self.rect.y = self.Y_POS
+        self.velocity = self.SPEED
     
     def update(self,user_input):
         if user_input[pygame.K_LEFT]:
@@ -26,17 +28,19 @@ class Spaceship:
         screen.blit(self.image, self.rect)
 
     def move_left(self):
-        if self.rect.left > 0:
-            self.rect.x -= 10
+        self.rect.x -= self.velocity
+        if self.rect.x == -30:
+            self.rect.x = 1070
     
     def move_right(self):
-        if self.rect.left < (SCREEN_WIDTH)-40:
-            self.rect.x += 10
+        self.rect.x += self.velocity
+        if self.rect.x == 1080:
+            self.rect.x = -30
     
     def move_up(self):
-        if self.rect.y > (SCREEN_HEIGHT)//2:
-            self.rect.y -= 10
+        if self.rect.y > 0:
+            self.rect.y -= self.velocity
     
     def move_down(self):
         if self.rect.y < (SCREEN_HEIGHT)-60:
-            self.rect.y += 10
+            self.rect.y += self.velocity
