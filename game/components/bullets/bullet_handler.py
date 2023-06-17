@@ -6,9 +6,9 @@ class BulletHandler:
     def __init__(self):
         self.bullets = []
 
-    def update(self,player,enemy_handler):
+    def update(self, player, enemy_handler, bullet_handler):
         for bullet in self.bullets:
-            bullet.update(player,enemy_handler)
+            bullet.update(player, enemy_handler, bullet_handler, bullet)
 
     def draw(self,screen):
         for bullet in self.bullets:

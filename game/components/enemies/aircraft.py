@@ -7,6 +7,7 @@ class Aircraft(Enemy):
     SPEED_X = 2
     SPEED_Y = 5
     INTERVAL = [50,100,200]
+    LIFE = 10
 
     def __init__(self):
         self.image = ENEMY_3

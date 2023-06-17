@@ -12,9 +12,15 @@ class BulletShip(Bullet):
         self.image = pygame.transform.scale(self.image, (self.WIDTH,self.HEIGHT))
         super().__init__(self.image,center)
 
-    def update(self, player,enemy_handler):
+    def update(self, player, enemy_handler, bullet_handler, bullet):
         self.rect.y -= self.SPEED
         for i in range(0,len(enemy_handler.enemies)):
             if self.rect.colliderect(enemy_handler.enemies[i].rect):
-                enemy_handler.enemies[i].is_alive = False
-                enemy_handler.number_enemy_destroyed += 1
+                enemy_handler.enemies[i].LIFE -= 10
+                try:
+                    bullet_handler.bullets.remove(bullet)
+                except:
+                    pass
+                if enemy_handler.enemies[i].LIFE <= 0:
+                    enemy_handler.enemies[i].is_alive = False
+                    enemy_handler.number_enemy_destroyed += 1

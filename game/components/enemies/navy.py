@@ -7,6 +7,7 @@ class Navy(Enemy):
     SPEED_X = 5
     SPEED_Y = 2
     INTERVAL = [50,100,150,200,250]
+    LIFE = 20
 
     def __init__(self):
         self.image = ENEMY_2

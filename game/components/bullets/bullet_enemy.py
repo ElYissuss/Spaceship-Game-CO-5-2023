@@ -13,7 +13,9 @@ class BulletEnemy(Bullet):
         self.image = pygame.transform.scale(self.image, (self.WIDTH,self.HEIGHT))
         super().__init__(self.image,center)
 
-    def update(self,player,enemy_handler):
+    def update(self, player, enemy_handler, bullet_handler, bullet):
         self.rect.y += random.choice(self.SPEED)
-        if self.rect.colliderect(player.rect):
+        if self.rect.colliderect(player.rect) and player.has_power == True:
+            player.is_alive = True
+        elif self.rect.colliderect(player.rect) and player.has_power == False:
             player.is_alive = False

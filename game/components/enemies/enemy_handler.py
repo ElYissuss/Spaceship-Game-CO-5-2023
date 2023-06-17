@@ -14,8 +14,10 @@ class EnemyHandler:
         ship = random.choice(ships)
         return ship
 
-    def update(self,bullet_handler,player):
+    def update(self,bullet_handler,player):#,score):
         self.add_enemy()
+        # if score == 5:
+        #     self.boss(score)
         for enemy in self.enemies:
             enemy.update(bullet_handler,player)
             if not enemy.is_alive:
@@ -26,7 +28,7 @@ class EnemyHandler:
             enemy.draw(screen)
 
     def add_enemy(self):
-        number = [2,4,6,8,10]
+        number = [2,4]
         if len(self.enemies) < random.choice(number):
             self.enemies.append(self.election())
 
@@ -36,3 +38,6 @@ class EnemyHandler:
     def reset(self):
         self.enemies = []
         self.number_enemy_destroyed = 0
+
+    def boss(self,score):
+        self.enemies.clear()

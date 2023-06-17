@@ -9,7 +9,7 @@ class Enemy:
     LEFT = 'left'
     RIGHT = 'right'
     MOV_X = [LEFT,RIGHT]
-    SHOOTING_TIME = 30
+    SHOOTING_TIME = 25
 
 
     def __init__(self,image):
@@ -31,8 +31,6 @@ class Enemy:
         self.shoot(bullet_handler)
         if self.rect.colliderect(player.rect):
             player.is_alive = False
-        # if not self.is_destroyed():
-        #     self.is_destroyed = False
 
     def draw(self,screen):
         screen.blit(self.image,self.rect)
