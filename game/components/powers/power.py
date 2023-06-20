@@ -6,7 +6,6 @@ from game.utils.constants import SCREEN_WIDTH
 class Power:
     POWER_WIDHT = 30
     POWER_HEIGHT = 30
-    POWER_SPEED = 10
     def __init__(self, image, type):
         self.image = image
         self.type = type

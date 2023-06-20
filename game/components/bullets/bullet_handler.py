@@ -1,4 +1,4 @@
-from game.utils.constants import BULLET_ENEMY_TYPE, BULLET_SHIP_TYPE
+from game.utils.constants import BULLET_ENEMY_TYPE, BULLET_SHIP_TYPE, BULLET_BOSS_TYPE
 from game.components.bullets.bullet_enemy import BulletEnemy
 from game.components.bullets.bullet_ship import BulletShip
 

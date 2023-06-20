@@ -1,6 +1,6 @@
 import pygame
 
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, WHITE_COLOR, DEFAULT_TYPE
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, WHITE_COLOR, DEFAULT_TYPE, MENU_AUDIO, PLAYING_AUDIO, CHANNEL_2, CHANNEL_3, LOSE_AUDIO, CHANNEL_6
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_handler import EnemyHandler
 from game.components.bullets.bullet_handler import BulletHandler
@@ -29,6 +29,7 @@ class Game:
         self.number_death = 0
 
     def run(self):
+        self.menu_audio()
         self.running = True
         while self.running:
             self.events()
@@ -45,16 +46,18 @@ class Game:
             elif event.type == pygame.KEYDOWN and not self.playing:
                 user_input = pygame.key.get_pressed()
                 if user_input[pygame.K_RETURN]:
+                    CHANNEL_2.stop()
+                    self.playing_audio()
                     self.playing = True
                     self.reset()
 
-    def update(self): 
-        if self.playing:  
+    def update(self):
+        if self.playing:
             user_input = pygame.key.get_pressed()
             user_input_shoot = pygame.key.get_pressed()
             user_input_2 = pygame.key.get_pressed()
             self.player.update(user_input,user_input_2,user_input_shoot,self.bullet_handler)
-            self.enemy_handler.update(self.bullet_handler,self.player)#,self.score)
+            self.enemy_handler.update(self.bullet_handler,self.player)
             self.bullet_handler.update(self.player,self.enemy_handler, self.bullet_handler)
             self.score = self.enemy_handler.number_enemy_destroyed
             self.power_handler.update(self.player)
@@ -62,6 +65,7 @@ class Game:
                 pygame.time.delay(300)
                 self.playing = False
                 self.number_death += 1
+                self.lose_audio()
 
     def draw(self):
         self.draw_background()
@@ -93,9 +97,10 @@ class Game:
             text, text_rect = text_utils.get_message("Press return to start",30,WHITE_COLOR)
             self.screen.blit(text,text_rect)
         else:
+            CHANNEL_3.stop()
             if self.high_score < self.score:
                 self.high_score = self.score
-            text, text_rect = text_utils.get_message("Press return to restart",30,WHITE_COLOR)
+            text, text_rect = text_utils.get_message("Press return to restart",30,WHITE_COLOR,height = (SCREEN_HEIGHT//2)-20)
             try_number, try_number_rect = text_utils.get_message(f"Try number: {self.number_death} ",20,WHITE_COLOR,height = (SCREEN_HEIGHT//2)+50)
             score, score_rect = text_utils.get_message(f"Your score is: {self.score} ",20,WHITE_COLOR,height = (SCREEN_HEIGHT//2)+100)
             high_score, high_score_rect = text_utils.get_message(f"High score: {self.high_score} ",20,WHITE_COLOR,height = (SCREEN_HEIGHT//2)+150)
@@ -106,12 +111,15 @@ class Game:
     
     def draw_score(self):
         score, score_rect = text_utils.get_message(f"your score is: {self.score} ",20,WHITE_COLOR,1000,40)
-        self.screen.blit(score,score_rect)
+        life, life_rect = text_utils.get_message(f"life left: {self.player.life} ",20,WHITE_COLOR,1000,60)
+        damage, damage_rect = text_utils.get_message(f"Actual damage: {self.player.damage} ",20,WHITE_COLOR,1000,80)
+        self.screen.blit(score, score_rect)
+        self.screen.blit(life, life_rect)
+        self.screen.blit(damage, damage_rect)
 
     def draw_power_time(self):
         if self.player.has_power:
-            power_time = round((self.player.power_time - pygame.time.get_ticks()) / 1000, 2)
-
+            power_time = round((self.player.power_time - pygame.time.get_ticks()) / 1000)
             if power_time >= 0:
                 text, text_rect = text_utils.get_message(f"{self.player.power_type.capitalize()} is enabled for {power_time} ",20,WHITE_COLOR,150,50)
                 self.screen.blit(text, text_rect)
@@ -124,3 +132,19 @@ class Game:
         self.player.reset()
         self.bullet_handler.reset()
         self.enemy_handler.reset()
+        self.power_handler.reset()
+
+    def menu_audio(self):
+        audio = MENU_AUDIO
+        audio.set_volume(0.2)
+        CHANNEL_2.play(audio)
+
+    def playing_audio(self):
+        audio = PLAYING_AUDIO
+        audio.set_volume(0.1)
+        CHANNEL_3.play(audio)
+    
+    def lose_audio(self):
+        audio = LOSE_AUDIO
+        audio.set_volume(0.1)
+        CHANNEL_6.play(audio)

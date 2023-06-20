@@ -1,6 +1,6 @@
 import pygame
 from game.components.bullets.bullet import Bullet
-from game.utils.constants import BULLET
+from game.utils.constants import BULLET, BULLET_SHIP_DAMAGE
 
 class BulletShip(Bullet):
     WIDTH = 9
@@ -16,7 +16,7 @@ class BulletShip(Bullet):
         self.rect.y -= self.SPEED
         for i in range(0,len(enemy_handler.enemies)):
             if self.rect.colliderect(enemy_handler.enemies[i].rect):
-                enemy_handler.enemies[i].LIFE -= 10
+                enemy_handler.enemies[i].LIFE -= player.damage
                 try:
                     bullet_handler.bullets.remove(bullet)
                 except:
